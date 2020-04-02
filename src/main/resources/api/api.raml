@@ -1,0 +1,70 @@
+#%RAML 1.0 
+baseUri: http://localhost:8091/api
+title: Sample Test API
+version: v1
+
+uses: 
+  dt : ../dataTypes/dt-lib.raml
+
+/employee:
+  post:
+    description: Pass Empolyee Information
+    body:
+      application/json:
+        type : dt.request
+    responses:
+      201:
+        body:
+          plain/text:
+            type: dt.response
+/camelCase:
+  post:
+    description: Pass Empolyee Information
+    body:
+      application/json:
+        type : dt.request
+    responses:
+      201:
+        body:
+          plain/text:
+            type: dt.response
+/combine:
+  post:
+    description: Combine two payloads
+    body:
+      application/json:
+        type: dt.employeeRequest
+    responses:
+      200:
+        body:
+          application/json:
+            type: dt.scoreResponse
+          
+/corresponding:
+  post:
+    description: Leave corresponding fields from input 2
+    body:
+      application/json: 
+        type: dt.employeeRequest
+    responses:
+      200:
+        body:
+          application/json:
+          
+        
+/list:
+  /{listId}:
+    uriParameters:
+      listId:
+        type: integer
+        required: true
+        example: 10
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                value: [1,2,3]
+         
+          

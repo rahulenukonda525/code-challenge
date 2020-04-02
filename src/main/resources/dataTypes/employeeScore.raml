@@ -1,0 +1,33 @@
+#%RAML 1.0 DataType
+displayName : Employee Score
+type : object
+properties:
+  certificate:
+    type: array
+    items:
+      type: object
+      properties:
+        id:
+          type: string
+          required: true
+        firstName:
+          type: string
+          required: true
+        lastName:
+          type: string
+          required: true
+        MarksBySubjectWise:
+          type: object
+          properties:
+            Maths:
+              type: string
+              required: false
+            English:
+              type: string
+              required: false
+            Arts:
+              type: string
+              required: false
+            Drawings:
+              type: string
+              required: false

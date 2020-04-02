@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<flow name="post:\employee:api-config" doc:id="81922513-ff39-45b5-902a-aa085675139d" >
+		<flow-ref doc:name="Flow Reference" doc:id="14765085-d5fa-4fd3-92b5-5f14305db7c3" name="create-employee-record"/>
+	</flow>
+	
+	<flow name="get:\list\(listId):api-config" doc:id="5a31a2d5-59ff-4038-a9d0-4a714d887bda" >
+		<set-variable value="#[1 to attributes.uriParams.'listId']" doc:name="Set Variable" doc:id="29fef911-c871-4e55-bf23-0de6f7f0072a" variableName="array"/>
+		<ee:transform doc:name="Transform Message" doc:id="c6f2d95e-d574-4ffb-af31-788d52b06265" >
+			<ee:message >
+				<ee:set-payload resource="dataweaves/convert-to-json.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="log-the-end-of-flow" doc:id="0e390cbf-f338-4b2e-9b1d-b7a3b36f7425" message="#[payload]"/>
+	</flow>
+	<flow name="post:\combine:api-config" doc:id="499f8bf6-02fa-4aa8-abfb-ed59f7364a81" >
+		<flow-ref doc:name="Flow Reference" doc:id="434464fd-92db-4938-b724-8ae8af0ad8ad" name="combine-payload"/>
+	</flow>
+	<flow name="post:\corresponding:api-config" doc:id="4876529d-8e7d-485d-ba0b-614d6a302a1d" >
+		<flow-ref doc:name="Flow Reference" doc:id="65398f18-69ce-4b49-9885-ccb80902ee37" name="coressponding-data"/>
+	</flow>
+	<flow name="post:\camelCase:api-config" doc:id="c8719f33-eb9e-44ba-85b1-3a9f48fc087a" >
+		<flow-ref doc:name="Flow Reference" doc:id="f17ff769-38aa-4c31-8f73-2c58025d7e17" name="convert-to-camel-case" />
+	</flow>
+</mule>

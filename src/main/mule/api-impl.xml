@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	
+	<sub-flow name="create-employee-record" doc:id="8528ecaa-a6b0-4212-9111-31120e7794af" >
+		<logger level="INFO" doc:name="log-the-start-of-flow" doc:id="cd55ace2-10a3-4f5a-9c0d-434bf8af1aee" />
+		<set-payload value='#[payload.employee.first_name ++ " " ++ payload.employee.last_name ++ " " ++ "employee profile is created in HRMS System"]' doc:name="set-payload" doc:id="9b83dd79-6dcc-4c4e-a6d5-a88edfb47d06" />
+		<ee:transform doc:name="call-print-flow" doc:id="6a6973e8-afd6-4c3c-8410-b35aec57b44c">
+			<ee:message>
+				<ee:set-payload resource="dataweaves/call-print-flow.dwl" />
+			
+</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="log-the-end-of-flow" doc:id="a2614b2f-9822-41fd-9e6a-6358c2a3a3d7" />
+	
+</sub-flow>
+	<flow name="print-employee" doc:id="f403e7bf-a35b-45a3-b6e7-ceadb60a3fe7" >
+		<logger level="INFO" doc:name="log-the-start-of-flow" doc:id="2a0b1eb9-0bed-4d5d-aedf-6f9761c4fc4c" />
+		<set-payload value="#[payload]" doc:name="set-payload" doc:id="a2aca91f-7636-4c5b-96f1-90be74c62a74" />
+	</flow>
+	<sub-flow name="convert-to-camel-case" doc:id="7b27d55c-1a7b-4fb7-9215-802be535b634" >
+		<logger level="INFO" doc:name="log-the-start-of-flow" doc:id="76dda036-a984-42ea-a97d-d90cf7067faf" message="#[payload]"/>
+		<flow-ref doc:name="call-create-employee-flow" doc:id="0734da8c-385e-4bac-a96e-d280b0e1fabb" name="create-employee-record"/>
+		<ee:transform doc:name="convert-to-camel-case" doc:id="9f1e8224-5df9-4ab5-a614-7b669c5d8c63">
+			<ee:message>
+				<ee:set-payload resource="dataweaves/convert-to-camel-case.dwl" />
+			
+</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="log-the-end-of-flow" doc:id="a24cffe4-ac36-43e2-8aff-016be3a10c04" message="#[payload]"/>
+	</sub-flow>
+	<sub-flow name="combine-payload" doc:id="f1935cee-dd55-4d30-ad62-5c1d0f62a323" >
+		<logger level="INFO" doc:name="Log-the-start-of-flow" doc:id="45318927-9ea1-4245-a12a-38c44b19f9e9" message="#[payload]"/>
+		<ee:transform doc:name="combine-payloads" doc:id="e1c70615-c510-4553-96c7-b701d9211571" >
+			<ee:message >
+				<ee:set-payload resource="dataweaves/combine-payloads.dwl" />
+			</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log-the-end-of-flow" doc:id="c9d5bc2f-422e-49a9-b2bd-df52515279e8" message="#[payload]"/>
+	</sub-flow>
+			
+	<sub-flow name="coressponding-data" doc:id="f23264d5-e01e-4d3f-b167-5ce09af28a73" >
+		<logger level="INFO" doc:name="Log-the-start-of-flow" doc:id="8d035a7e-7849-46b8-8e94-98ca62b34a51" message="#[payload]"/>
+		<ee:transform doc:name="corresponding-payloads" doc:id="edbfb992-e273-4bc3-bb29-e5c6dfb389d0" >
+			<ee:message >
+				<ee:set-payload resource="dataweaves/corresponding-payloads.dwl" />
+			
+</ee:message>
+		</ee:transform>
+		<logger level="INFO" doc:name="Log-the-end-of-flow" doc:id="96a41e98-757a-45ff-8fc2-bb335bc0fd5f" message="#[payload]"/>
+
+	</sub-flow>
+	
+	
+</mule>
